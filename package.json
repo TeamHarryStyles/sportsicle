@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Alchemy Code Lab 401 Backend project ",
   "main": "index.js",
+  "engines": {
+ 	"node": "8.x"
+ },
   "scripts": {
     "test": "mocha test"
   },
