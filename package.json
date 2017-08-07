@@ -1,0 +1,33 @@
+{
+  "name": "sportsicle",
+  "version": "1.0.0",
+  "description": "Alchemy Code Lab 401 Backend project ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamHarryStyles/sportsicle.git"
+  },
+  "author": "Haley Tortorella, Joe Churchman, Chris Thomson, Pierre Salumu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeamHarryStyles/sportsicle/issues"
+  },
+  "homepage": "https://github.com/TeamHarryStyles/sportsicle#readme",
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.4.1",
+    "mocha": "^3.5.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "jsonwebtoken-promisified": "^1.0.3",
+    "mongoose": "^4.11.6",
+    "morgan": "^1.8.2"
+  }
+}

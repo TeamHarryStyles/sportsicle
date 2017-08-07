@@ -1,5 +1,6 @@
 # sportsicle
 
+### User Stories
 As a user
 I need to log in/sign up
 so that I can use the app and track my team and standings
@@ -20,6 +21,8 @@ As a user
 I need to change or update my team/roster based on performance
 so that I can be the best fastansy basketball nerd
 
+### Developer Stories
+
 As a developer
 I need to provide a secure login
 so that my users can't mess with each others' teams/profiles
@@ -35,3 +38,12 @@ so that the pertinent information is accessible to my users
 As a developer
 I need to aggregate user data
 so that it can be compared among users app wide
+
+
+### Contributor Guidelines
+
+* branches named after feature
+* standard indent 4 spaces
+* quotes: JS Standard single
+* merge into master: Pull Parties only
+
