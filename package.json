@@ -4,8 +4,8 @@
   "description": "Alchemy Code Lab 401 Backend project ",
   "main": "index.js",
   "engines": {
- 	"node": "8.x"
- },
+    "node": "8.x"
+  },
   "scripts": {
     "test": "mocha test"
   },
@@ -28,6 +28,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "jsonwebtoken-promisified": "^1.0.3",
     "mongoose": "^4.11.6",
