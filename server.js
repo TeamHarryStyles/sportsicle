@@ -2,7 +2,7 @@ const http = require('http');
 
 const app = require('./lib/app'); //TODO: initialize app file
 
-require('./lib/connect'); //TODO: write connect file
+require('./lib/connect'); //DONE: write connect file
 
 const server = http.createServer(app);
 
