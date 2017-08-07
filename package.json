@@ -7,7 +7,7 @@
     "node": "8.x"
   },
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha tests --recursive"
   },
   "repository": {
     "type": "git",
