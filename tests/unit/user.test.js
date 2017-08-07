@@ -9,11 +9,18 @@ describe('user model', () => {
         const password = 'abc';
         user.generateHash(password);
 
-        assert.notEqual(user.has, password);
+        assert.notEqual(user.hash, password);
         assert.isOk(user.comparePassword('abc'));
         assert.isNotOk(user.comparePassword('bad password'));
     });
-    it.skip('validate with all remaining fields', () => {
+    //TODO: finish Unit test on all fields 
+    // it.skip('validate with all remaining fields', () => {
+    //     const user = new User({
+    //         email: 'hello@world.org',
+    //         roles: ['User'],
+    //         team:
+    //     });
+    //     const password = 'xyz';
 
-    })
+    // });
 });// Make validation test after team schema is built
