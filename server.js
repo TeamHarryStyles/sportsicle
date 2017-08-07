@@ -1,10 +1,10 @@
 const http = require('http');
-const db = require('./lib/db'); //TODO: write db file
+
 const app = require('./lib/app'); //TODO: initialize app file
 
-db.connect(url); // TODO: Establish url
+require('./lib/connect'); //TODO: write connect file
 
-const server = http.createServer();
+const server = http.createServer(app);
 
 const port = 3000;
 
