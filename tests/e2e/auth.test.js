@@ -4,7 +4,9 @@ const { assert } = require('chai');
 
 describe('auth', () => {
 
-    before(db.drop('user'));
+    before(() => db.drop('users'));
+ 
+    
 
     const user = {
         email: 'user',
@@ -26,10 +28,17 @@ describe('auth', () => {
                         assert.equal(res.response.body.error, error);
                     }
                 );
-
+        it('signup requires email', () => 
+            badRequest('/api/auth/signup', { password: 'abc' }, 400, 'email and password must be supplied')
+        );		
+        
+        it('signup requires password', () =>
+            badRequest('/api/auth/signup', { email: 'abc' }, 400, 'email and password must be supplied')
+        );        
+        
         let token = '';
 
-        it.only('signup', () =>
+        it('signup', () =>
             request
                 .post('/api/auth/signup')
                 .send(user)
@@ -37,24 +46,24 @@ describe('auth', () => {
         );
 
         it('cannot use same email', () =>
-            badRequest('/api/auth/signup', user, 401, 'email in use')
+            badRequest('/api/auth/signup', user, 400, 'email in use')
         );
         it('signin requires email', () =>
-            badRequest('/api/auth/signing', {
+            badRequest('/api/auth/signin', {
                 password: 'abc'
             },
             400,
             'email and password must be supplied')
         );
         it('signin requires password', () =>
-            badRequest('/api/auth/signing', {
+            badRequest('/api/auth/signin', {
                 email: 'abc'
             },
             400,
             'email and password must be supplied')
         );
         it('signin with wrong user', () =>
-            badRequest('/api/auth/signing', {
+            badRequest('/api/auth/signin', {
                 email: 'bad user',
                 password: user.password
             },
@@ -62,7 +71,7 @@ describe('auth', () => {
             'Invalid Login')
         );
         it('signin with wrong password', () =>
-            badRequest('/api/auth/signing', {
+            badRequest('/api/auth/signin', {
                 email: user.email,
                 password: 'bad'
             },
@@ -70,7 +79,7 @@ describe('auth', () => {
             'Invalid Login')
         );
 
-        it('singin', () =>
+        it('signin', () =>
             request
                 .post('/api/auth/signin')
                 .send(user)
@@ -79,15 +88,26 @@ describe('auth', () => {
         it('token is invalid', () =>
             request
                 .get('/api/auth/verify')
+                .set('Authorization', 'bad token')
+                .then( () => {
+                    throw new Error('success response not expected');    
+                },
+                (res) => {assert.equal(res.status, 401);}
+                )
+        );
+        it('token is valid', () =>
+            request
+                .get('/api/auth/verify')
                 .set('Authorization', token)
                 .then(res => assert.ok(res.body))
         );
+
     });
-    describe.skip('unauthorized', () => {
+    describe.skip('unauthorized', () => { //TODO: create get routes
 
         it('401 with no token', () => {
             return request
-                .get('/api/team')//TODO: specify proper url
+                .get('/api/teams')//TODO: specify proper url
                 .set('Authorization', 'badtoken')
                 .then(
                     () => {
@@ -99,5 +119,18 @@ describe('auth', () => {
                     }
                 );
         });
+        it('403 with invalid token', () => {
+            return request
+                .get('/api/teams')
+                .set('Authorization', 'badtoken')
+                .then(
+                    () => { throw new Error('status should not be 200'); },
+                    res => {
+                        assert.equal(res.status, 401);
+                        assert.equal(res.response.body.error, 'Authorization Failed');
+                    }
+                );
+        });
+
     });
 });

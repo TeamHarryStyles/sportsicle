@@ -5,10 +5,10 @@ module.exports = {
     drop(collection) {
         return connection
             .collections[collection]
-            .drop(err => {
-                if(err) console.log(err);//eslint-disable-line
-                console.log('connection dropped');//eslint-disable-line
-            })
+            .drop()
+            .catch(error => {
+                if(error.name !== 'MongoError' || error.message !== 'ns not found') throw error;
+            });//eslint-disable-line
     },
     getToken(user = {
         email: 'me@you.com',
