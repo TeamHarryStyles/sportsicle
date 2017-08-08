@@ -2,6 +2,12 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 require('../../lib/connect');
 
+function waitOne() {
+    return new Promise(resolve => {
+        setTimeout(resolve, 1010);
+    });
+}
+
 describe('players REST api', () => {
 
     let savedPlayer = null;
@@ -15,13 +21,27 @@ describe('players REST api', () => {
             });
     });
 
-    it('GETs a player from the API via ID', () => {
+    it('GETs a valid player from the API via ID', () => {
         return request.get(`/api/players/${savedPlayer._id}`)
             .then(res => res.body)
-            .then( player => {
+            .then(player => {
                 assert.ok(player.name);
                 assert.ok(player.position);
                 assert.ok(player.score);
+            });
+    });
+
+    it('returns an error if a player is not valid', () => {
+        return waitOne()
+            .then(() => {
+                return request.get('/api/players/e35d5549-8eae-4f30-824a-357b204dcfb0');
+            })
+            .then(() => {
+                throw new Error('successful status code not expected');
+            },
+            err => {
+                assert.equal(err.status, 404);
+                assert.equal(err.message, 'Not Found');
             });
     });
 });
