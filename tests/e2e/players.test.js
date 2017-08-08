@@ -10,7 +10,7 @@ describe('players REST api', () => {
         return request.get('/api/players')
             .then(res => res.body)
             .then(players => {
-                savedPlayer = players[40];
+                savedPlayer = players[2];
                 assert.ok(players.length > 0);
             });
     });
@@ -21,7 +21,6 @@ describe('players REST api', () => {
             .then( player => {
                 assert.ok(player.name);
                 assert.ok(player.position);
-                assert.ok(player._id);
                 assert.ok(player.score);
             });
     });
