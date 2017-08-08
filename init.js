@@ -46,14 +46,14 @@ const rostersUrl = (teamId) => `http://api.sportradar.us/nba-t3/teams/${teamId}/
 // });
 // fs.writeFile('teams/players.json', JSON.stringify(players));
 
-const current = JSON.parse(fs.readFileSync('teams/players.json'));
-const players = current.map(player => {
-    let newPlayer = {
-        _id: player.id,
-        name: player.full_name,
-        position: player.position
-    };
-    return newPlayer;
-});
+// const current = JSON.parse(fs.readFileSync('teams/players.json'));
+// const players = current.map(player => {
+//     let newPlayer = {
+//         _id: player.id,
+//         name: player.full_name,
+//         position: player.position
+//     };
+//     return newPlayer;
+// });
 
-fs.writeFile('teams/players.json', JSON.stringify(players));
+// fs.writeFile('teams/players.json', JSON.stringify(players));
