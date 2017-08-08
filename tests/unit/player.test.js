@@ -6,9 +6,8 @@ describe('player', () => {
     it('validates a player with required fields', () => {
         const stephen = new Player({
             name: 'Stephen Curry',
-            position: 'guard',
-            injured: false,
-            score: 42
+            position: 'G',
+            _id: '2813308004jh'
         });
         return stephen.validate();
     });
@@ -22,8 +21,7 @@ describe('player', () => {
             ({ errors }) => {
                 assert.ok(errors.name);
                 assert.ok(errors.position);
-                assert.ok(errors.injured);
-                assert.ok(errors.score);
+                assert.ok(errors._id);
             });
 
     });
