@@ -51,7 +51,20 @@ let utils = {
                         .then(() => utils.getGameScores(game.id));
                 });
             });
+    },
+
+    getWeeklyScores(date) {
+        let days = [];
+        for (let i = 0; i < 7; i++) {
+            let d = date;
+            days.push(d.toISOString().split('T')[0].split('-'));
+            d.setDate(d.getDate() - 1);
+        }
+        return days.forEach((day) => {
+            return utils.getDailySchedule(day[0], day[1], day[2]);
+        });
     }
 };
 
 module.exports = utils;
+
