@@ -7,4 +7,5 @@ before(() => {
         .then(cn => connection = cn);
 });
 
-after(() => connection.close());
+
+after( () => connection.close());

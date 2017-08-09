@@ -1,5 +1,5 @@
 const connection = require('mongoose').connection;
-const request = require('./request');
+const request = require('./request');//eslint-disable-line
 
 module.exports = {
     drop(collection) {
