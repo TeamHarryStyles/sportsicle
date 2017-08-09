@@ -8,25 +8,41 @@ describe('Users REST api', () => {
 
     let pierre = {
         email: 'Golden@st.war',
-        password: 'abc'
+        password: 'abc',
+        team: {
+            name:'GSW',
+            score: 44
+        }
     };
     let chris = {
         email: 'tsttxt@hello.world',
-        password: 'xyz'
+        password: 'xyz',
+        team: {
+            name:'the Heeat',
+            score: 43
+        }
     };
     let haley = {
         email: 'harry@styles.com',
-        password: '123'
+        password: '123',
+        team: {
+            name:'Dream Blazers',
+            score: 45
+        }
     };
     let joe = {
         email: 'beard4evr@dollarShv.com',
-        password: '456'
+        password: '456',
+    };
+    let daTeam ={
+        name:'Great Team',
+        score: 25
     };
     let token = null;
     before(() => db.getToken().then(t => token = t));
 
 
-    function saveUser(user) {
+    function saveUser(user,team) {
         return request
             .post('/api/auth/signup')
             .set('Autorization', token)
@@ -35,9 +51,18 @@ describe('Users REST api', () => {
                 user._id = body._id;
                 user.__v = body.__v;
                 return body;
+            })
+            .post('/api/team')
+            .set('Autorization', token)
+            .send(team)
+            .then(({body}) => {
+                team._id = body._id;
+                team.__v = body.__v;
+                return body;
             });
+        //TODO: finish saveing teams seprately!!!
     }
-    it.only('GETs all Users for a league request', () => {
+    it('GETs all Users for a league request', () => {
         return Promise.all([
             saveUser(pierre),
             saveUser(chris),
@@ -50,10 +75,17 @@ describe('Users REST api', () => {
             )
             .then(res => {
                 const users = res.body;
-                assert.equal(users[1].email, pierre.email);
-                assert.equal(users[2].email, chris.email);
-                assert.equal(users[3].email, haley.email);
-                assert.equal(users[4].email, joe.email);
+                //TODO: fix random saveing breaking test sometimes 
+                //If this test fails run again for new result
+                [pierre, chris, haley, joe].forEach(saved => {
+                    const found = users.find(user => user.email === saved.email);
+                    const teamFound = users.find(user => user.team === saved.team);
+                    assert.ok(found);
+                    assert.ok(teamFound);
+                });
+                // assert.equal(users[2].email, chris.email);
+                // assert.equal(users[3].email, haley.email);
+                // assert.equal(users[4].email, joe.email);
             });
     });
 
