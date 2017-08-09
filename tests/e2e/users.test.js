@@ -45,7 +45,7 @@ describe('Users REST api', () => {
     function saveUser(user,team) {
         return request
             .post('/api/auth/signup')
-            .set('Autorization', token)
+            .set('Authorization', token)
             .send(user)
             .then(({body}) => {
                 user._id = body._id;
@@ -75,6 +75,7 @@ describe('Users REST api', () => {
             )
             .then(res => {
                 const users = res.body;
+
                 //TODO: fix random saveing breaking test sometimes 
                 //If this test fails run again for new result
                 [pierre, chris, haley, joe].forEach(saved => {
