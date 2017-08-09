@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 let utils = {
     waitOne(n) {
         return new Promise(resolve => {
-            setTimeout(resolve, (n + 1) * 1010);
+            setTimeout(resolve, (n + 1) * 1100);
         });
     },
 
@@ -46,9 +46,9 @@ let utils = {
     getDailySchedule(y, m, d) {
         return request.get(utils.scheduleUrl(y, m, d))
             .then(res => {
-                res.body.games.foreEach((games, i) => {
+                return res.body.games.forEach((game, i) => {
                     return utils.waitOne(i)
-                        .then(() => utils.getGameScores(games.id));
+                        .then(() => utils.getGameScores(game.id));
                 });
             });
     }
