@@ -8,7 +8,10 @@
   },
   "scripts": {
     "test": "mocha tests --recursive",
-    "test:e2e": "mocha tests/e2e"
+    "test:unit": "mocha tests/unit",
+    "dev:unit": "nodemon --exec 'npm run test:unit'",
+    "test:e2e": "mocha tests/e2e",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
