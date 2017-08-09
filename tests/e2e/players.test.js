@@ -2,9 +2,9 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 require('../../lib/connect');
 
-function waitOne() {
+function waitOne(n) {
     return new Promise(resolve => {
-        setTimeout(resolve, 1010);
+        setTimeout(resolve, (n+1)*1010);
     });
 }
 
