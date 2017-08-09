@@ -29,7 +29,7 @@ describe('Users REST api', () => {
     function saveUser(user) {
         return request
             .post('/api/auth/signup')
-            .set('Autorization', token)
+            .set('Authorization', token)
             .send(user)
             .then(({body}) => {
                 user._id = body._id;
@@ -37,7 +37,7 @@ describe('Users REST api', () => {
                 return body;
             });
     }
-    it.only('GETs all Users for a league request', () => {
+    it('GETs all Users for a league request', () => {
         return Promise.all([
             saveUser(pierre),
             saveUser(chris),
@@ -50,10 +50,11 @@ describe('Users REST api', () => {
             )
             .then(res => {
                 const users = res.body;
-                assert.equal(users[1].email, pierre.email);
-                assert.equal(users[2].email, chris.email);
-                assert.equal(users[3].email, haley.email);
-                assert.equal(users[4].email, joe.email);
+                // assert.equal(users[1].email, pierre.email);
+                // assert.equal(users[2].email, chris.email);
+                // assert.equal(users[3].email, haley.email);
+                // assert.equal(users[4].email, joe.email);
+                assert.deepEqual(users, [pierre, chris, haley, joe]);
             });
     });
 
