@@ -4,10 +4,17 @@ const superagent = require('superagent');
 // const Player = require('./lib/models/player');
 const fs = require('fs');
 
+function waitOne(n) {
+    return new Promise(resolve => {
+        setTimeout(resolve, (n+1)*1010);
+    });
+}
+
 let teamIds = [];
 
 const standingsUrl = `http://api.sportradar.us/nba-t3/seasontd/2016/REG/standings.json?api_key=${process.env.SPORTRADAR_API_TOKEN}`;
 const rostersUrl = (teamId) => `http://api.sportradar.us/nba-t3/teams/${teamId}/profile.json?api_key=${process.env.SPORTRADAR_API_TOKEN}`;
+const playerUrl = (playerId) => `http://api.sportradar.us/nba-t3/players/${playerId}/profile.json?api_key=${process.env.SPORTRADAR_API_TOKEN}`;
 
 // superagent.get(standingsUrl)
 //     .then((res) => {
@@ -46,14 +53,14 @@ const rostersUrl = (teamId) => `http://api.sportradar.us/nba-t3/teams/${teamId}/
 // });
 // fs.writeFile('teams/players.json', JSON.stringify(players));
 
-// const current = JSON.parse(fs.readFileSync('teams/players.json'));
-// const players = current.map(player => {
-//     let newPlayer = {
-//         _id: player.id,
-//         name: player.full_name,
-//         position: player.position
-//     };
-//     return newPlayer;
-// });
+const current = JSON.parse(fs.readFileSync('teams/players.json'));
+const players = current.map(player => {
+    let newPlayer = {
+        _id: player.id,
+        name: player.full_name,
+        position: player.position
+    };
+    return newPlayer;
+});
 
-// fs.writeFile('teams/players.json', JSON.stringify(players));
+fs.writeFile('teams/players.json', JSON.stringify(players));
