@@ -2,10 +2,12 @@ require('dotenv').config();
 const request = require('superagent');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const Player = require('../lib/models/player');
+
 
 
 let utils = {
-    waitOne(n) {
+    waitOne(n = 0) {
         return new Promise(resolve => {
             setTimeout(resolve, (n + 1) * 1100);
         });
@@ -43,26 +45,32 @@ let utils = {
             });
     },
 
-    getDailySchedule(y, m, d) {
-        return request.get(utils.scheduleUrl(y, m, d))
+    getDailySchedule([y, m, d]) {
+        return utils.waitOne()
+            .then(() => request.get(utils.scheduleUrl(y, m, d)))
             .then(res => {
-                return res.body.games.forEach((game, i) => {
+                return Promise.all(res.body.games.map((game, i) => {
                     return utils.waitOne(i)
                         .then(() => utils.getGameScores(game.id));
-                });
+                }));
             });
     },
 
     getWeeklyScores(date) {
+        Player.update({}, { $set: { score: 0 } }, { multi: true });
         let days = [];
         for (let i = 0; i < 7; i++) {
             let d = date;
             days.push(d.toISOString().split('T')[0].split('-'));
             d.setDate(d.getDate() - 1);
         }
-        return days.forEach((day) => {
-            return utils.getDailySchedule(day[0], day[1], day[2]);
-        });
+        return utils.getDailySchedule(days[0])
+            .then(() => utils.getDailySchedule(days[1]))
+            .then(() => utils.getDailySchedule(days[2]))
+            .then(() => utils.getDailySchedule(days[3]))
+            .then(() => utils.getDailySchedule(days[4]))
+            .then(() => utils.getDailySchedule(days[5]))
+            .then(() => utils.getDailySchedule(days[6]));
     }
 };
 
