@@ -11,6 +11,7 @@
     "test:unit": "mocha tests/unit",
     "dev:unit": "nodemon --exec 'npm run test:unit'",
     "test:e2e": "mocha tests/e2e",
+    "test:util": "mocha tests/util",
     "start": "nodemon server.js"
   },
   "repository": {
