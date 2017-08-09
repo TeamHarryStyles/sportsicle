@@ -1,13 +1,10 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const assert = chai.assert;
+const { assert } = require('chai');
 
 describe('Users REST api', () => {
     
     before(() => db.drop('users'));
-
-    let token = null;
-    before(() => db.getToken().then(t => token = t));
 
     let pierre = {
         email: 'Golden@st.war',
@@ -25,6 +22,9 @@ describe('Users REST api', () => {
         email: 'beard4evr@dollarShv.com',
         password: '456'
     };
+    let token = null;
+    before(() => db.getToken().then(t => token = t));
+
 
     function saveUser(user) {
         return request
@@ -37,7 +37,7 @@ describe('Users REST api', () => {
                 return body;
             });
     }
-    it('GETs all Users for a league request', () => {
+    it.only('GETs all Users for a league request', () => {
         return Promise.all([
             saveUser(pierre),
             saveUser(chris),
@@ -45,12 +45,15 @@ describe('Users REST api', () => {
             saveUser(joe),
         ])
             .then(() => request
-                .get('/league')
+                .get('/api/league')
                 .set('Authorization', token)
             )
             .then(res => {
                 const users = res.body;
-                assert.deepEqual(users, [pierre, chris, haley, joe]);
+                assert.equal(users[1].email, pierre.email);
+                assert.equal(users[2].email, chris.email);
+                assert.equal(users[3].email, haley.email);
+                assert.equal(users[4].email, joe.email);
             });
     });
 
