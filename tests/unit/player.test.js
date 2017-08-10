@@ -1,7 +1,7 @@
 const Player = require('../../lib/models/player');
 const { assert } = require('chai');
 
-describe.only('player', () => {
+describe('player', () => {
 
     it('validates a player with required fields', () => {
         const stephen = new Player({
