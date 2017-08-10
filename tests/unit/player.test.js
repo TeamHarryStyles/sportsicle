@@ -7,7 +7,8 @@ describe('player', () => {
         const stephen = new Player({
             name: 'Stephen Curry',
             position: 'G',
-            _id: '2813308004jh'
+            _id: '2813308004jh',
+            score: 0
         });
         return stephen.validate();
     });
@@ -22,6 +23,7 @@ describe('player', () => {
                 assert.ok(errors.name);
                 assert.ok(errors.position);
                 assert.ok(errors._id);
+                assert.ok(errors.score);
             });
 
     });
