@@ -8,7 +8,7 @@ function waitOne(n = 0) {
     });
 }
 
-describe.only('players REST api', () => {
+describe.skip('players REST api', () => {
 
     let savedPlayer = null;
 
