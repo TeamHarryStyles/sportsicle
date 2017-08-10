@@ -2,7 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 
-describe.only('auth', () => {
+describe('auth', () => {
 
     before(() => db.drop('users'));
  
@@ -39,13 +39,13 @@ describe.only('auth', () => {
         
         let token = '';
 
-        it.only('signup', () =>
+        it('signup', () =>
             request
                 .post('/api/auth/signup')
                 .send(user)
                 .then(res => {
                     assert.ok(token = res.body.token);
-                    assert.ok(res.body.team);
+                    assert.equal(res.body.team);
                 })
         );
 
