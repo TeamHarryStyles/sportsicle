@@ -5,6 +5,7 @@ const { assert } = require('chai');
 describe('Teams REST api', () => {
     
     before(() => db.drop('users'));
+    before(() => db.drop('teams'));
 
     let team1 = {
         name: 'Fantastic',
