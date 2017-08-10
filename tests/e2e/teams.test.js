@@ -2,6 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 const Team = require('../../lib/models/team');
+const Player = require('../../lib/models/player');
 
 
 describe('Teams REST api', () => {
@@ -28,7 +29,8 @@ describe('Teams REST api', () => {
             });
     }
 
-    it.only('saves an team to the db and to active user', () => { //TODO add teamID to active user
+    it.only('saves an team to the db and to active user', () => { 
+        //TODO add teamID to active user
         return saveTeam(team1)
             .then(user => {
                 return Team.find(user.team).lean();
@@ -41,8 +43,27 @@ describe('Teams REST api', () => {
                 team1._id = savedTeam[0]._id;
             });
     });
+    it.only('adds player to roster', () => {
+        let player;
+        return Player.find() 
+            .then(players => player = players[5])
+            .then(() => {
+                console.log('player======>',player);
+                return request
+                    .patch('/api/teams/roster')
+                    .set('Authorization', token)
+                    .send(player);
+            })
+            .then(user => {
+                return Team.find(user.team).lean();
+            })
+            .then(res => {
+                assert.equal(res[0].roster.length, 1);
+            });
+    });
 
-    it('GETs team if it exists', () => { //TODO this test isn't really necessary, maybe relevant later?
+    it('GETs team if it exists', () => { 
+        //TODO this test isn't really necessary, maybe relevant later?
         return request
             .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)
