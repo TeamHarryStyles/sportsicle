@@ -92,7 +92,7 @@ describe('auth', () => {
                 .then( () => {
                     throw new Error('success response not expected');    
                 },
-                (res) => {assert.equal(res.status, 401);}
+                (res) => {assert.equal(res.status, 403);}
                 )
         );
         it('token is valid', () =>
