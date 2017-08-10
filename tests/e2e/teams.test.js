@@ -8,11 +8,7 @@ describe('Teams REST api', () => {
     before(() => db.drop('teams'));
 
     let team1 = {
-        name: 'Fantastic',
-        roster: [{
-            player: null //TODO: change to id of player
-        }],
-        score: 43 
+        name: 'Fantastic'
     };
 
     // let team2 = {
@@ -58,19 +54,20 @@ describe('Teams REST api', () => {
             .then(savedTeam => {
                 assert.isOk(savedTeam._id);
                 assert.equal(savedTeam.name, team1.name);
-                assert.equal(savedTeam.score, team1.score); 
+                assert.equal(savedTeam.score, 0); 
                 team1._id = savedTeam._id;
             });
     });
+
     it('GETs team if it exists', () => {
         return request
-            .get(`/teams/${team1._id}`)
+            .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)
             .then(res => res.body)
             .then(team => { 
                 assert.ok(team._id);
                 assert.equal(team.name, team1.name);
-
             });
     });   
+
 });
