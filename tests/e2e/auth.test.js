@@ -2,7 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
 
-describe('auth', () => {
+describe.only('auth', () => {
 
     before(() => db.drop('users'));
  
@@ -10,7 +10,8 @@ describe('auth', () => {
 
     const user = {
         email: 'user',
-        password: 'abc'
+        password: 'abc',
+        teamName: 'wizards'
     };
 
     describe('user management', () => {
@@ -38,11 +39,14 @@ describe('auth', () => {
         
         let token = '';
 
-        it('signup', () =>
+        it.only('signup', () =>
             request
                 .post('/api/auth/signup')
                 .send(user)
-                .then(res => assert.ok(token = res.body.token))
+                .then(res => {
+                    assert.ok(token = res.body.token);
+                    assert.ok(res.body.team);
+                })
         );
 
         it('cannot use same email', () =>

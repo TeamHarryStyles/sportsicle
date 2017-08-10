@@ -49,7 +49,7 @@ describe('Teams REST api', () => {
             });
     }
 
-    it('saves an team', () => {
+    it('saves an team to the db and to active user', () => { //TODO add teamID to active user
         return saveTeam(team1)
             .then(savedTeam => {
                 assert.isOk(savedTeam._id);
@@ -59,7 +59,7 @@ describe('Teams REST api', () => {
             });
     });
 
-    it('GETs team if it exists', () => {
+    it('GETs team if it exists', () => { //TODO this test isn't really necessary, maybe relevant later?
         return request
             .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)
