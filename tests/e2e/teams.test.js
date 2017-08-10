@@ -48,7 +48,7 @@ describe('Teams REST api', () => {
         return Player.find() 
             .then(players => player = players[5])
             .then(() => {
-                console.log('player======>',player);
+                // console.log('player======>',player);
                 return request
                     .patch('/api/teams/roster')
                     .set('Authorization', token)
