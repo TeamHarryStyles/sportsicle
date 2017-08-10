@@ -103,30 +103,29 @@ describe('auth', () => {
         );
 
     });
-    describe.skip('unauthorized', () => { //TODO: create get routes
+    describe('unauthorized', () => { //TODO: create get routes
 
         it('401 with no token', () => {
             return request
-                .get('/api/teams')//TODO: specify proper url
-                .set('Authorization', 'badtoken')
+                .get('/api/players')//TODO: specify proper url
                 .then(
                     () => {
                         throw new Error('status should not be 200');
                     },
                     res => {
                         assert.equal(res.status, 401);
-                        assert.equal(res.response.body.error, 'Authorization Failed');
+                        assert.equal(res.response.body.error, 'No Authorization Found');
                     }
                 );
         });
         it('403 with invalid token', () => {
             return request
-                .get('/api/teams')
+                .get('/api/players')
                 .set('Authorization', 'badtoken')
                 .then(
                     () => { throw new Error('status should not be 200'); },
                     res => {
-                        assert.equal(res.status, 401);
+                        assert.equal(res.status, 403);
                         assert.equal(res.response.body.error, 'Authorization Failed');
                     }
                 );

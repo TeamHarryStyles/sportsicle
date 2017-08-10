@@ -5,7 +5,7 @@ const Player = require('../../lib/models/player');
 
 
 
-describe('App utility functions', () => {
+describe.skip('App utility functions', () => {
 
 
     describe('utils.getGameScores', () => {
@@ -33,7 +33,7 @@ describe('App utility functions', () => {
 
     });
 
-    describe.only('utils.getWeeklyScores', () => {
+    describe('utils.getWeeklyScores', () => {
         it('gets weekly scores from a date', () => {
             return utils.waitOne(1)
                 .then( () => utils.getWeeklyScores(new Date(2016, 10, 1)))

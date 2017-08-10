@@ -52,7 +52,7 @@ describe('Teams REST api', () => {
             });
     }
 
-    it.only('saves an team', () => {
+    it('saves an team', () => {
         return saveTeam(team1)
             .then(savedTeam => {
                 assert.isOk(savedTeam._id);
