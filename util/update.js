@@ -23,25 +23,24 @@ let utils = {
 
     scores: {},
 
+    updatePlayerScore(id, newScore) {
+        return Player.findOneAndUpdate(
+            { _id: id },
+            { $inc: { score: newScore } },
+            { new: true }
+        );
+    },
+
     getGameScores(gameId) {
         return request.get(utils.gameUrl(gameId))
             .then(res => {
-                res.body.home.players.forEach(player => {
-                    let ps = player.statistics;
-                    if (utils.scores[player.id]) {
-                        utils.scores[player.id].push(ps.points + ps.steals + ps.rebounds + ps.assists);
-                    } else {
-                        utils.scores[player.id] = [ps.points + ps.steals + ps.rebounds + ps.assists];
-                    }
-                });
-                res.body.away.players.forEach(player => {
-                    let ps = player.statistics;
-                    if (utils.scores[player.id]) {
-                        utils.scores[player.id].push(ps.points + ps.steals + ps.rebounds + ps.assists);
-                    } else {
-                        utils.scores[player.id] = [ps.points + ps.steals + ps.rebounds + ps.assists];
-                    }
-                });
+                let players = res.body.home.players.concat(res.body.away.players);
+                return Promise.all(
+                    players.map(player => {
+                        let ps = player.statistics;
+                        let score = ps.points + ps.steals + ps.rebounds + ps.assists;
+                        return utils.updatePlayerScore(player.id, score);
+                    }));
             });
     },
 
