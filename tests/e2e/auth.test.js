@@ -10,7 +10,8 @@ describe('auth', () => {
 
     const user = {
         email: 'user',
-        password: 'abc'
+        password: 'abc',
+        teamName: 'wizards'
     };
 
     describe('user management', () => {
@@ -42,7 +43,10 @@ describe('auth', () => {
             request
                 .post('/api/auth/signup')
                 .send(user)
-                .then(res => assert.ok(token = res.body.token))
+                .then(res => {
+                    assert.ok(token = res.body.token);
+                    assert.equal(res.body.team);
+                })
         );
 
         it('cannot use same email', () =>
@@ -92,7 +96,7 @@ describe('auth', () => {
                 .then( () => {
                     throw new Error('success response not expected');    
                 },
-                (res) => {assert.equal(res.status, 401);}
+                (res) => {assert.equal(res.status, 403);}
                 )
         );
         it('token is valid', () =>
@@ -103,30 +107,29 @@ describe('auth', () => {
         );
 
     });
-    describe.skip('unauthorized', () => { //TODO: create get routes
+    describe('unauthorized', () => { //TODO: create get routes
 
         it('401 with no token', () => {
             return request
-                .get('/api/teams')//TODO: specify proper url
-                .set('Authorization', 'badtoken')
+                .get('/api/players')//TODO: specify proper url
                 .then(
                     () => {
                         throw new Error('status should not be 200');
                     },
                     res => {
                         assert.equal(res.status, 401);
-                        assert.equal(res.response.body.error, 'Authorization Failed');
+                        assert.equal(res.response.body.error, 'No Authorization Found');
                     }
                 );
         });
         it('403 with invalid token', () => {
             return request
-                .get('/api/teams')
+                .get('/api/players')
                 .set('Authorization', 'badtoken')
                 .then(
                     () => { throw new Error('status should not be 200'); },
                     res => {
-                        assert.equal(res.status, 401);
+                        assert.equal(res.status, 403);
                         assert.equal(res.response.body.error, 'Authorization Failed');
                     }
                 );

@@ -26,7 +26,7 @@ describe('ensure auth middleware', () => {
 
         const next = (error) => {
             assert.deepEqual(error, {
-                code: 401,
+                code: 403,
                 error: 'Authorization Failed'
             });
             done();
