@@ -56,9 +56,10 @@ const playerUrl = (playerId) => `http://api.sportradar.us/nba-t3/players/${playe
 const current = JSON.parse(fs.readFileSync('teams/players.json'));
 const players = current.map(player => {
     let newPlayer = {
-        _id: player.id,
-        name: player.full_name,
-        position: player.position
+        _id: player._id,
+        name: player.name,
+        position: player.position,
+        score: 0
     };
     return newPlayer;
 });

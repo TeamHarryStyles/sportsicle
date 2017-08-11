@@ -48,7 +48,6 @@ describe('Teams REST api', () => {
         return Player.find() 
             .then(players => player = players[5])
             .then(() => {
-                // console.log('player======>',player);
                 return request
                     .patch('/api/teams/roster')
                     .set('Authorization', token)
@@ -62,8 +61,27 @@ describe('Teams REST api', () => {
             });
     });
 
+    it.only('updates a team score after the roster is updated', () => {
+        let player;
+        return Player.find() 
+            .then(players => player = players[13])
+            .then(() => {
+                return request
+                    .patch('/api/teams/roster')
+                    .set('Authorization', token)
+                    .send(player);
+            })
+            .then(user => {
+                return Team.find(user.team).lean();
+            })
+            .then(res => {
+                assert.equal(res[0].roster.length, 2);
+                assert.equal(res[0].score, 0);
+            });
+        
+    });
+
     it('GETs team if it exists', () => { 
-        //TODO this test isn't really necessary, maybe relevant later?
         return request
             .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)
