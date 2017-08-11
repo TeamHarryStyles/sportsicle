@@ -33,7 +33,6 @@ describe('Teams REST api', () => {
         //TODO add teamID to active user
         return saveTeam(team1)
             .then(user => {
-                console.log('TEAM TEST USER ========>',user);
                 return Team.find(user.team).lean();
                 
             })
