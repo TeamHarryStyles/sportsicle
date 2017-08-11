@@ -3,6 +3,7 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 const Team = require('../../lib/models/team');
 const Player = require('../../lib/models/player');
+const player = require('../../lib/models/player');
 
 
 describe('Teams REST api', () => {
@@ -29,12 +30,11 @@ describe('Teams REST api', () => {
             });
     }
 
-    it.only('saves an team to the db and to active user', () => { 
-        //TODO add teamID to active user
+    it.only('saves an team to the db and to active user', () => {
         return saveTeam(team1)
             .then(user => {
                 return Team.find(user.team).lean();
-                
+
             })
             .then(savedTeam => {
                 assert.isOk(savedTeam[0]._id);
@@ -45,10 +45,9 @@ describe('Teams REST api', () => {
     });
     it.only('adds player to roster', () => {
         let player;
-        return Player.find() 
+        return Player.find()
             .then(players => player = players[5])
             .then(() => {
-                // console.log('player======>',player);
                 return request
                     .patch('/api/teams/roster')
                     .set('Authorization', token)
@@ -62,8 +61,7 @@ describe('Teams REST api', () => {
             });
     });
 
-    it('GETs team if it exists', () => { 
-        //TODO this test isn't really necessary, maybe relevant later?
+    it('GETs team if it exists', () => {
         return request
             .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)
@@ -72,6 +70,42 @@ describe('Teams REST api', () => {
                 assert.ok(team._id);
                 assert.equal(team.name, team1.name);
             });
+    });
+
+    it.only('removes a player by Id', () => {
+        let player;
+        return Player.find()
+            .then(players => player = players[3])
+            .then(() => {
+                return request
+                    .patch('/api/teams/roster')
+                    .set('Authorization', token)
+                    .send(player);
+            })
+            .then(user => {
+                return Team.find(user.team).lean();
+            })
+            .then(() => {
+                return request
+                    .delete(`/api/teams/roster/${player._id}`)
+                    .set('Authorization', token);
+            })
+            .then(res => res.body)
+            .then(result => {
+                assert.notInclude(result.roster, player._id);
+            });
+
+    });
+
+    it.only('removes all players', () => {
+        return request
+            .delete('/api/teams/roster')
+            .set('Authorization', token)
+            .then(res => res.body)
+            .then(result => {
+                assert.equal(result.roster.length, 0);
+            });
+
     });
 
 });
