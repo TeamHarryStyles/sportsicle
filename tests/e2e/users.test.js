@@ -64,7 +64,7 @@ describe('Users REST api', () => {
                 return body;
             });
     }
-    it.only('GETs all Users for a league request', () => {
+    it('GETs all Users for a league request', () => {
         return request
             .get('/api/league')
             .set('Authorization', goodToken)

@@ -23,7 +23,6 @@ describe('player', () => {
                 assert.ok(errors.name);
                 assert.ok(errors.position);
                 assert.ok(errors._id);
-                assert.ok(errors.score);
             });
 
     });

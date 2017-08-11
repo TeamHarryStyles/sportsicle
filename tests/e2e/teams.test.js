@@ -29,7 +29,7 @@ describe('Teams REST api', () => {
             });
     }
 
-    it.only('saves an team to the db and to active user', () => { 
+    it('saves an team to the db and to active user', () => { 
         //TODO add teamID to active user
         return saveTeam(team1)
             .then(user => {
