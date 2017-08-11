@@ -1,4 +1,6 @@
 const connect = require('../../lib/connect');
+const { execSync } = require('child_process');
+
 
 let connection = null;
 
@@ -7,5 +9,13 @@ before(() => {
         .then(cn => connection = cn);
 });
 
+before(() => connection.dropDatabase());
 
-after( () => connection.close());
+before(() => {
+    execSync('mongoimport --db sportsicle-test --collection players --drop --jsonArray --file teams/players.json');
+    
+});
+
+
+
+after(() => connection.close());
