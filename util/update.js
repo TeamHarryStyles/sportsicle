@@ -56,20 +56,22 @@ let utils = {
     },
 
     getWeeklyScores(date) {
-        Player.update({}, { $set: { score: 0 } }, { multi: true });
         let days = [];
         for (let i = 0; i < 7; i++) {
             let d = date;
             days.push(d.toISOString().split('T')[0].split('-'));
             d.setDate(d.getDate() - 1);
         }
-        return utils.getDailySchedule(days[0])
-            .then(() => utils.getDailySchedule(days[1]))
-            .then(() => utils.getDailySchedule(days[2]))
-            .then(() => utils.getDailySchedule(days[3]))
-            .then(() => utils.getDailySchedule(days[4]))
-            .then(() => utils.getDailySchedule(days[5]))
-            .then(() => utils.getDailySchedule(days[6]));
+        return Player.update({}, { $set: { score: 0 } }, { multi: true })
+            .then(() => {
+                return utils.getDailySchedule(days[0])
+                    .then(() => utils.getDailySchedule(days[1]))
+                    .then(() => utils.getDailySchedule(days[2]))
+                    .then(() => utils.getDailySchedule(days[3]))
+                    .then(() => utils.getDailySchedule(days[4]))
+                    .then(() => utils.getDailySchedule(days[5]))
+                    .then(() => utils.getDailySchedule(days[6]));
+            });
     }
 };
 

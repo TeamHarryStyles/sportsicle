@@ -5,7 +5,7 @@ const Player = require('../../lib/models/player');
 
 
 
-describe.skip('App utility functions', () => {
+describe('App utility functions', () => {
 
     describe('util.updatePlayerScore', () => {
         it('updates a player\'s score', () => {
@@ -46,21 +46,19 @@ describe.skip('App utility functions', () => {
     });
 
     describe('utils.getWeeklyScores', () => {
-        it('gets weekly scores from a date', () => {
+        it('gets weekly scores from a date and updates player score in the db', () => {
             return utils.waitOne(1)
                 .then(() => utils.getWeeklyScores(new Date(2016, 10, 1)))
                 .then(() => {
-                    assert.isAtLeast(Object.keys(utils.scores).length, 50);
                     require('fs').writeFileSync('scores.json', JSON.stringify(utils.scores));
+                })
+                .then(() => {
+                    return Player.find({ score: { $ne: 0 } }).count()
+                        .then(res => {
+                            assert.isAtLeast(res, 50);
+                        });
                 });
         }).timeout(100000);
-
-        it('updates player weekly score', () => {
-            return Player.find({ score: { $ne: 0 } }).count()
-                .then(res => {
-                    assert.isAtLeast(res, 50);
-                });
-        });
     });
 
 });

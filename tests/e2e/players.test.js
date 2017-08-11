@@ -1,5 +1,6 @@
 const request = require('./helpers/request');
 const { assert } = require('chai');
+const db = require('./helpers/db');
 require('../../lib/connect');
 
 function waitOne(n = 0) {
@@ -8,12 +9,16 @@ function waitOne(n = 0) {
     });
 }
 
-describe.skip('players REST api', () => {
+describe('players REST api', () => {
+    before(() => db.drop('users'));
 
     let savedPlayer = null;
+    let token = null;
+    before(() => db.getToken().then(t => token = t));
 
     it('GETs all players from the databse', () => {
         return request.get('/api/players')
+            .set('Authorization', token)
             .then(res => res.body)
             .then(players => {
                 savedPlayer = players[2];
@@ -23,6 +28,7 @@ describe.skip('players REST api', () => {
 
     it('GETs a valid player from the API via ID', () => {
         return request.get(`/api/players/${savedPlayer._id}`)
+            .set('Authorization', token)
             .then(res => res.body)
             .then(player => {
                 assert.ok(player.name);
@@ -33,7 +39,8 @@ describe.skip('players REST api', () => {
     it('returns a selection of players by query parameter', () => {
         return waitOne(1)
             .then(() => {
-                return request.get('/api/players?position=G');
+                return request.get('/api/players?position=G')
+                    .set('Authorization', token);
             })
             .then((res) => {
                 assert.isAtLeast(res.body.length, 10);

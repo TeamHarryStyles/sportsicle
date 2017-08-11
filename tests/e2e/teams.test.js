@@ -93,7 +93,7 @@ describe('Teams REST api', () => {
             });
     });
 
-    it.only('removes a player by Id', () => {
+    it('removes a player by Id', () => {
         let player;
         return Player.find()
             .then(players => player = players[3])
@@ -118,7 +118,7 @@ describe('Teams REST api', () => {
 
     });
 
-    it.only('removes all players', () => {
+    it('removes all players', () => {
         return request
             .delete('/api/teams/roster')
             .set('Authorization', token)
