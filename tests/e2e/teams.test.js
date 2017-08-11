@@ -33,6 +33,7 @@ describe('Teams REST api', () => {
         //TODO add teamID to active user
         return saveTeam(team1)
             .then(user => {
+                console.log('TEAM TEST USER ========>',user);
                 return Team.find(user.team).lean();
                 
             })
@@ -43,7 +44,7 @@ describe('Teams REST api', () => {
                 team1._id = savedTeam[0]._id;
             });
     });
-    it.only('adds player to roster', () => {
+    it('adds player to roster', () => {
         let player;
         return Player.find() 
             .then(players => player = players[5])
@@ -61,7 +62,7 @@ describe('Teams REST api', () => {
             });
     });
 
-    it.only('updates a team score after the roster is updated', () => {
+    it('updates a team score after the roster is updated', () => {
         let player;
         return Player.find() 
             .then(players => player = players[13])
