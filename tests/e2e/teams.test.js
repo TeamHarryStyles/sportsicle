@@ -29,10 +29,10 @@ describe('Teams REST api', () => {
                 return body;
             });
     }
-
-    it.only('saves an team to the db and to active user', () => {
+    it('saves a team to the db and to active user', () => { 
         return saveTeam(team1)
             .then(user => {
+                console.log('TEAM TEST USER ========>',user);
                 return Team.find(user.team).lean();
 
             })
@@ -43,7 +43,7 @@ describe('Teams REST api', () => {
                 team1._id = savedTeam[0]._id;
             });
     });
-    it.only('adds player to roster', () => {
+    it('adds player to roster', () => {
         let player;
         return Player.find()
             .then(players => player = players[5])
@@ -61,7 +61,29 @@ describe('Teams REST api', () => {
             });
     });
 
-    it('GETs team if it exists', () => {
+
+    it('updates a team score after the roster is updated', () => {
+        let player;
+        return Player.find() 
+            .then(players => player = players[13])
+            .then(() => {
+                return request
+                    .patch('/api/teams/roster')
+                    .set('Authorization', token)
+                    .send(player);
+            })
+            .then(user => {
+                return Team.find(user.team).lean();
+            })
+            .then(res => {
+                assert.equal(res[0].roster.length, 2);
+                assert.equal(res[0].score, 0);
+            });
+        
+    });
+
+    it('GETs team if it exists', () => { 
+
         return request
             .get(`/api/teams/${team1._id}`)
             .set('Authorization', token)

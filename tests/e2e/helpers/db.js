@@ -11,7 +11,7 @@ module.exports = {
             });//eslint-disable-line
     },
     getToken(user = {
-        email: 'them@woo.com',
+        email: 'secretEvilUser@bad.com',
         password: 'abc'
     })
     {
