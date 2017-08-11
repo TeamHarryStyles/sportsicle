@@ -32,7 +32,6 @@ describe('Teams REST api', () => {
     it('saves a team to the db and to active user', () => { 
         return saveTeam(team1)
             .then(user => {
-                console.log('TEAM TEST USER ========>',user);
                 return Team.find(user.team).lean();
 
             })

@@ -1,7 +1,6 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
-const Team = require('../../lib/models/team');
 
 describe('Users REST api', () => {
     
@@ -33,7 +32,8 @@ describe('Users REST api', () => {
         score: 25
     };
     let daOdaTeam = {
-        name:'bad team'
+        name:'bad team',
+
     };
     let goodToken = null;
     before(() => {
@@ -74,9 +74,8 @@ describe('Users REST api', () => {
                     const found = users.find(user => user.email === saved.email);
                     assert.ok(found);
                 });
-                assert.equal(users[0].team.score,25);
-                assert.isAbove(users[0].team.score,users[1].team.score);
-
+                assert.equal(users[0].score,25);
+                assert.isAbove(users[0].score,users[1].score);
             });
     });
 
