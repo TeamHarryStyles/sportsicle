@@ -1,5 +1,25 @@
 # sportsicle
 
+### Application Structure
+The application is built as a series of models that interconnect to create 
+was is essentially numbers game for fantasy basketball.
+With the power of sports radar, we are able to collect and aggregate data
+too our needs and create a database of basketball players who all have
+unique scores and a matching id on our and sports radar's API. 
+
+We use this data to allow users to collect their favorite players and 
+aggregate a score for their team and then compare their teams to 
+each other in a global league and adjust their
+teams however they want.
+
+Both teams and users have their own clearly defined models and 
+features. Users are capable of granting permissions the public
+and generating associated teams for users. While Teams are easily 
+mutatable for the users benefit.
+
+### Build test and Run Instructions 
+
+
 ### User Stories
 As a user
 I need to log in/sign up
