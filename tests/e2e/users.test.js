@@ -52,6 +52,7 @@ describe('Users REST api', () => {
             .send(user)
             .then(({body}) => body.token)
             .then(token => {
+                // are you just grabbing last token then?
                 goodToken = token;
                 return request
                     .post('/api/teams')
