@@ -2,10 +2,6 @@ const utils = require('../../util/update');
 const { assert } = require('chai');
 const Player = require('../../lib/models/player');
 
-
-
-
-
 describe('App utility functions', () => {
 
     describe('util.updatePlayerScore', () => {
@@ -16,8 +12,6 @@ describe('App utility functions', () => {
                 });
         });
     });
-
-
 
     describe('utils.getGameScores', () => {
 
@@ -30,8 +24,6 @@ describe('App utility functions', () => {
         });
 
     });
-
-
 
     describe('utils.getDailySchedule', () => {
 

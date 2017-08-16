@@ -1,9 +1,10 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
 const { assert } = require('chai');
+
+// Try to avoid using models in E2E test.
 const Team = require('../../lib/models/team');
 const Player = require('../../lib/models/player');
-const player = require('../../lib/models/player');
 
 
 describe('Teams REST api', () => {
@@ -32,8 +33,8 @@ describe('Teams REST api', () => {
     it('saves a team to the db and to active user', () => { 
         return saveTeam(team1)
             .then(user => {
+                // An app talking to the server can't use this...
                 return Team.find(user.team).lean();
-
             })
             .then(savedTeam => {
                 assert.isOk(savedTeam[0]._id);

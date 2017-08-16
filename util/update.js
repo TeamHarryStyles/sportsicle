@@ -1,10 +1,6 @@
 require('dotenv').config();
 const request = require('superagent');
-const fs = require('fs');
-const mongoose = require('mongoose');
 const Player = require('../lib/models/player');
-
-
 
 let utils = {
     waitOne(n = 0) {
@@ -33,13 +29,14 @@ let utils = {
 
     getGameScores(gameId) {
         return request.get(utils.gameUrl(gameId))
-            .then(res => {
-                let players = res.body.home.players.concat(res.body.away.players);
+            .then(({ body }) => {
+                const { home, away } = body;
+                const players = home.players.concat(away.players);
                 return Promise.all(
-                    players.map(player => {
-                        let ps = player.statistics;
-                        let score = ps.points + ps.steals + ps.rebounds + ps.assists;
-                        return utils.updatePlayerScore(player.id, score);
+                    players.map(({ id, statistics }) => {
+                        const { points, steals, rebounds, assists } = statistics;
+                        const score = points + steals + rebounds + assists;
+                        return utils.updatePlayerScore(id, score);
                     }));
             });
     },
@@ -47,8 +44,8 @@ let utils = {
     getDailySchedule([y, m, d]) {
         return utils.waitOne()
             .then(() => request.get(utils.scheduleUrl(y, m, d)))
-            .then(res => {
-                return Promise.all(res.body.games.map((game, i) => {
+            .then(({ body }) => {
+                return Promise.all(body.games.map((game, i) => {
                     return utils.waitOne(i)
                         .then(() => utils.getGameScores(game.id));
                 }));
@@ -56,12 +53,8 @@ let utils = {
     },
 
     getWeeklyScores(date) {
-        let days = [];
-        for (let i = 0; i < 7; i++) {
-            let d = date;
-            days.push(d.toISOString().split('T')[0].split('-'));
-            d.setDate(d.getDate() - 1);
-        }
+        let days = getDays(date);
+
         return Player.update({}, { $set: { score: 0 } }, { multi: true })
             .then(() => {
                 return utils.getDailySchedule(days[0])
@@ -74,6 +67,17 @@ let utils = {
             });
     }
 };
+
+// extract function. cleans up main code 
+// and makes it easy to unit test this functionality
+function getDays(date) {
+    let days = [];
+    for (let i = 0; i < 7; i++) {
+        days.push(date.toISOString().split('T')[0].split('-'));
+        date.setDate(date.getDate() - 1);
+    }
+    return days;
+}
 
 module.exports = utils;
 

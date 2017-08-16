@@ -5,8 +5,6 @@ const { assert } = require('chai');
 describe('auth', () => {
 
     before(() => db.drop('users'));
- 
-    
 
     const user = {
         email: 'user',
@@ -29,6 +27,7 @@ describe('auth', () => {
                         assert.equal(res.response.body.error, error);
                     }
                 );
+                
         it('signup requires email', () => 
             badRequest('/api/auth/signup', { password: 'abc' }, 400, 'email and password must be supplied')
         );		

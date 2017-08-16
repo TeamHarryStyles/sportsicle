@@ -13,8 +13,7 @@ module.exports = {
     getToken(user = {
         email: 'secretEvilUser@bad.com',
         password: 'abc'
-    })
-    {
+    }) {
         return request.post('/api/auth/signup')
             .send(user)
             .then(res => res.body.token);

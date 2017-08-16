@@ -1,8 +1,9 @@
 const request = require('./helpers/request');
 const { assert } = require('chai');
 const db = require('./helpers/db');
-require('../../lib/connect');
+// connection already happens in before-after.js
 
+// should be own helper function. could then be shared with util
 function waitOne(n = 0) {
     return new Promise(resolve => {
         setTimeout(resolve, (n + 1) * 1010);
@@ -16,7 +17,8 @@ describe('players REST api', () => {
     let token = null;
     before(() => db.getToken().then(t => token = t));
 
-    it('GETs all players from the databse', () => {
+    // clients outside the server don't know about the database
+    it('GETs all players', () => {
         return request.get('/api/players')
             .set('Authorization', token)
             .then(res => res.body)

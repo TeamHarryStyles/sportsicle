@@ -1,6 +1,5 @@
 # sportsicle
 
-// initial grading commit
 
 ### Application Structure
 The application is built as a series of models that interconnect to create 
@@ -19,9 +18,14 @@ features. Users are capable of granting permissions the public
 and generating associated teams for users. While Teams are easily 
 mutatable for the users benefit.
 
+### API
+
+// include API summary and instructions
+
 ### Build test and Run Instructions 
 
 
+// put these in another `.md` file, not the readme
 ### User Stories
 As a user
 I need to log in/sign up
