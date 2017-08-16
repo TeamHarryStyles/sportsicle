@@ -1,5 +1,7 @@
 # sportsicle
 
+// initial grading commit
+
 ### Application Structure
 The application is built as a series of models that interconnect to create 
 was is essentially numbers game for fantasy basketball.
